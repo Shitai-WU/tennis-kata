@@ -5,6 +5,9 @@ public class AdvantageGame extends GameState {
 
     public AdvantageGame(Player playerA, Player playerB, Player advantagePlayer) {
         super(playerA, playerB);
+        if (!isAdvantage()) {
+            throw new IllegalArgumentException("Is not advantage game");
+        }
         this.advantage = advantagePlayer;
     }
 

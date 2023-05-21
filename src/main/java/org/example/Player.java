@@ -1,12 +1,13 @@
 package org.example;
 
 public class Player {
-    private int score = 0;
+    private int score;
 
     private final char name;
 
-    public Player(char name) {
+    public Player(char name, int score) {
         this.name = name;
+        this.score = score;
     }
 
     public void addScore() {
@@ -17,7 +18,7 @@ public class Player {
         return score;
     }
 
-    public int getDisplayScore() {
+    public int displayScore() {
         return switch (score) {
             case 0 -> 0;
             case 1 -> 15;

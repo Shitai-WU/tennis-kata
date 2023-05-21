@@ -5,12 +5,15 @@ public class FinalGame extends GameState {
 
     public FinalGame(Player playerA, Player playerB, Player winner) {
         super(playerA, playerB);
+        if (!isFinal()) {
+            throw new IllegalArgumentException("Is not final game");
+        }
         this.winner = winner;
     }
 
     @Override
     public void addScore(char playerName) {
-
+        throw new IllegalStateException("Game has ended");
     }
 
     @Override

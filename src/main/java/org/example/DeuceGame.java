@@ -4,6 +4,9 @@ public class DeuceGame extends GameState {
 
     public DeuceGame(Player playerA, Player playerB) {
         super(playerA, playerB);
+        if (!isDeuce()) {
+            throw new IllegalArgumentException("Is not deuce game");
+        }
     }
 
     @Override
