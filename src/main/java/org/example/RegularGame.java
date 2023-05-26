@@ -1,34 +1,28 @@
 package org.example;
 
 public class RegularGame extends GameState {
-    public RegularGame(Player playerA, Player playerB) {
-        super(playerA, playerB);
-        if (isDeuce() || isAdvantage() || isFinal()) {
-            throw new IllegalArgumentException("Is not regular game");
-        }
+    public RegularGame(Game game) {
+        super(game);
     }
 
     @Override
     public void addScore(char winnerName) {
-        Player winner = winnerName == playerA.getName() ? playerA : playerB;
+        Player winner = winnerName == game.playerA.getName() ? game.playerA : game.playerB;
         winner.addScore();
 
         if (isDeuce()) {
-            current = new DeuceGame(playerA, playerB);
+            game.setState(new DeuceGame(game));
             return;
         }
 
         if (isFinal()) {
-            current = new FinalGame(playerA, playerB, winner);
-            return;
+            game.setState(new FinalGame(game, winner));
         }
-
-        current = new RegularGame(playerA, playerB);
     }
 
     @Override
-    public void printScore() {
-        System.out.printf("Player %s: %d / Player %s: %d%n", playerA.getName(), playerA.displayScore(),
-                playerB.getName(), playerB.displayScore());
+    public String toString() {
+        return String.format("Player %s: %d / Player %s: %d%n", game.playerA.getName(), game.playerA.displayScore(),
+                game.playerB.getName(), game.playerB.displayScore());
     }
 }

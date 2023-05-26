@@ -1,57 +1,46 @@
 package org.example;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AdvantageGameTest {
-    private final PrintStream standardOut = System.out;
-    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-
-    @BeforeEach
-    public void setUp() {
-        System.setOut(new PrintStream(outputStreamCaptor));
-    }
-
-    @AfterEach
-    public void tearDown() {
-        System.setOut(standardOut);
-    }
-
-    @Test
-    void should_throw_exception_when_game_is_not_advantage_game() {
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> new AdvantageGame(new Player('A', 0), new Player('B', 0), new Player('A', 0))
-        );
-    }
-
     @Test
     void should_move_to_final_game() {
-        GameState.current = new AdvantageGame(new Player('A', 5), new Player('B', 4), new Player('A', 5));
-        GameState.current.addScore('A');
+        Game game = createAdvantageGameWithPlayerA();
 
-        assertTrue(GameState.current instanceof FinalGame);
+        game.addScore('A');
+
+        assertEquals("Player A wins the game", game.toString().trim());
     }
 
     @Test
     void should_move_to_deuce_game() {
-        GameState.current = new AdvantageGame(new Player('A', 5), new Player('B', 4), new Player('A', 5));
-        GameState.current.addScore('B');
+        Game game = createAdvantageGameWithPlayerA();
 
-        assertTrue(GameState.current instanceof DeuceGame);
+        game.addScore('B');
+
+        assertEquals("Deuce", game.toString().trim());
     }
 
     @Test
-    void should_print_score() {
-        GameState.current = new AdvantageGame(new Player('A', 5), new Player('B', 4), new Player('A', 5));
-        GameState.current.printScore();
+    void should_return_advantage_game_score() {
+        Game game = createAdvantageGameWithPlayerA();
 
-        assertEquals("Advantage Player A", outputStreamCaptor.toString().trim());
+        assertEquals("Advantage Player A", game.toString().trim());
+    }
+
+    private Game createAdvantageGameWithPlayerA() {
+        Game game = new Game();
+        game.addScore('A');
+        game.addScore('B');
+        game.addScore('A');
+        game.addScore('B');
+        game.addScore('A');
+        game.addScore('B');
+        game.addScore('A');
+        game.addScore('B');
+        game.addScore('A');
+        return game;
     }
 }

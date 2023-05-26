@@ -2,23 +2,20 @@ package org.example;
 
 public class DeuceGame extends GameState {
 
-    public DeuceGame(Player playerA, Player playerB) {
-        super(playerA, playerB);
-        if (!isDeuce()) {
-            throw new IllegalArgumentException("Is not deuce game");
-        }
+    public DeuceGame(Game game) {
+        super(game);
     }
 
     @Override
     public void addScore(char winnerName) {
-        Player winner = winnerName == playerA.getName() ? playerA : playerB;
+        Player winner = winnerName == game.playerA.getName() ? game.playerA : game.playerB;
         winner.addScore();
 
-        current = new AdvantageGame(playerA, playerB, winner);
+        game.setState(new AdvantageGame(game, winner));
     }
 
     @Override
-    public void printScore() {
-        System.out.println("Deuce");
+    public String toString() {
+        return "Deuce";
     }
 }

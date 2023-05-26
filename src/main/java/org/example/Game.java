@@ -1,18 +1,26 @@
 package org.example;
 
 public class Game {
-    public static void main(String[] args) {
-        Player playerA = new Player('A', 0);
-        Player playerB = new Player('B', 0);
+    protected final Player playerA, playerB;
 
-        String scores = "ABABAA";
-        GameState.current = new InitGame(playerA, playerB);
+    private GameState state;
 
-        scores.strip().replaceAll("[^AB]", "")
-                .chars().mapToObj(c -> (char) c)
-                .forEach(c -> {
-                    GameState.current.addScore(c);
-                    GameState.current.printScore();
-                });
+    public Game() {
+        this.playerA = new Player('A', 0);
+        this.playerB = new Player('B', 0);
+        state = new RegularGame(this);
+    }
+
+    public void addScore(char playerName) {
+        state.addScore(playerName);
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return state.toString();
     }
 }

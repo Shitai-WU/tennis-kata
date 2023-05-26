@@ -3,11 +3,8 @@ package org.example;
 public class FinalGame extends GameState {
     private final Player winner;
 
-    public FinalGame(Player playerA, Player playerB, Player winner) {
-        super(playerA, playerB);
-        if (!isFinal()) {
-            throw new IllegalArgumentException("Is not final game");
-        }
+    public FinalGame(Game game, Player winner) {
+        super(game);
         this.winner = winner;
     }
 
@@ -17,7 +14,7 @@ public class FinalGame extends GameState {
     }
 
     @Override
-    public void printScore() {
-        System.out.printf("Player %s wins the game%n", winner.getName());
+    public String toString() {
+        return String.format("Player %s wins the game%n", winner.getName());
     }
 }

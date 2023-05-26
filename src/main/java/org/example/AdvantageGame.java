@@ -3,29 +3,26 @@ package org.example;
 public class AdvantageGame extends GameState {
     private final Player advantage;
 
-    public AdvantageGame(Player playerA, Player playerB, Player advantagePlayer) {
-        super(playerA, playerB);
-        if (!isAdvantage()) {
-            throw new IllegalArgumentException("Is not advantage game");
-        }
+    public AdvantageGame(Game game, Player advantagePlayer) {
+        super(game);
         this.advantage = advantagePlayer;
     }
 
     @Override
     public void addScore(char playerName) {
-        Player winner = playerName == playerA.getName() ? playerA : playerB;
+        Player winner = playerName == game.playerA.getName() ? game.playerA : game.playerB;
         winner.addScore();
 
         if (winner.getName() == advantage.getName()) {
-            current = new FinalGame(playerA, playerB, winner);
+            game.setState(new FinalGame(game, winner));
             return;
         }
 
-        current = new DeuceGame(playerA, playerB);
+        game.setState(new DeuceGame(game));
     }
 
     @Override
-    public void printScore() {
-        System.out.printf("Advantage Player %s%n", advantage.getName());
+    public String toString() {
+        return String.format("Advantage Player %s%n", advantage.getName());
     }
 }
